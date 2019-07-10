@@ -50,7 +50,7 @@
     </build>
     <scm>
         <developerConnection>scm:git:https://github.com/Rzat/Pet-Care.git</developerConnection>
-      <tag>pet-care-0.0.1</tag>
+        <tag>HEAD</tag>
   </scm>
 
 </project>
