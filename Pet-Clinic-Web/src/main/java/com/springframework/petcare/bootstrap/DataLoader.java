@@ -1,11 +1,9 @@
 package com.springframework.petcare.bootstrap;
 
-import com.springframework.petcare.model.Owner;
-import com.springframework.petcare.model.Pet;
-import com.springframework.petcare.model.PetType;
-import com.springframework.petcare.model.Vet;
+import com.springframework.petcare.model.*;
 import com.springframework.petcare.services.OwnerService;
 import com.springframework.petcare.services.PetTypeService;
+import com.springframework.petcare.services.SpecialtyService;
 import com.springframework.petcare.services.VetService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -20,18 +18,28 @@ public class DataLoader implements CommandLineRunner {
     private final OwnerService ownerService;
     private final VetService vetService;
     private final PetTypeService petTypeService;
+    private final SpecialtyService specialtyService;
 
-    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService) {
+    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService,
+                      SpecialtyService specialtyService) {
         this.ownerService = ownerService;
         this.vetService = vetService;
         this.petTypeService = petTypeService;
-
+        this.specialtyService = specialtyService;
     }
 
 
     @Override
     public void run(String... args) throws Exception {
+        int count = petTypeService.findAll().size();
 
+        if (count == 0) {
+            loadData();
+        }
+
+    }
+
+    private void loadData() {
         PetType dog = new PetType();
         dog.setName("Dog");
         PetType saveDogPetType = petTypeService.save(dog); //later to use with owner and vets.
@@ -77,22 +85,34 @@ public class DataLoader implements CommandLineRunner {
 
         logger.info("Loading Owners");
 
+        Speciality nutrition = new Speciality();
+        nutrition.setDescription("nutrition");
+        Speciality savedNutrition = specialtyService.save(nutrition);
+
+        Speciality pathology = new Speciality();
+        pathology.setDescription("pathology");
+        Speciality savedPathology = specialtyService.save(pathology);
+
+        Speciality canine = new Speciality();
+        canine.setDescription("canine");
+        Speciality savedCanine = specialtyService.save(canine);
+
         Vet vet = new Vet();
         vet.setFirstName("vetRajat");
         vet.setLastName("vetThakur");
-
+        vet.getSpecialities().add(savedCanine);
         vetService.save(vet);
+
 
         Vet vet2 = new Vet();
         vet2.setFirstName("vetRajat2");
         vet2.setLastName("vetThakur2");
+        vet2.getSpecialities().add(savedPathology);
 
         vetService.save(vet2);
 
 
         logger.info("Loading Vets");
-
-
     }
 }
 
