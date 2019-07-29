@@ -15,10 +15,13 @@ import java.util.logging.Logger;
 public class DataLoader implements CommandLineRunner {
 
     private static final Logger logger = Logger.getLogger(DataLoader.class.getName());
+
+
     private final OwnerService ownerService;
     private final VetService vetService;
     private final PetTypeService petTypeService;
     private final SpecialtyService specialtyService;
+
 
     public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService,
                       SpecialtyService specialtyService) {
