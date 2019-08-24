@@ -1,4 +1,4 @@
-  # Java Maven CircleCI 2.0 configuration file
+# Java Maven CircleCI 2.0 configuration file
 #
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
@@ -29,6 +29,7 @@ jobs:
             - v1-dependencies-{{ checksum "pom.xml" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
+      - run: mvn install -DskipTests
 
       - run: mvn dependency:go-offline
 
@@ -38,4 +39,4 @@ jobs:
           key: v1-dependencies-{{ checksum "pom.xml" }}
 
       # run tests!
-      - run: mvn install
+      - run: mvn integration-test
